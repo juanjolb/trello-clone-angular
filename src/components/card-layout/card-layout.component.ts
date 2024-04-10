@@ -44,7 +44,7 @@ import { AngleRightComponent } from '../Icons/angle-right/angle-right.component'
         <button
           (click)="addNewTask()"
           type="button"
-          class="text-gray-900 bg-white border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-100 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2"
+          class="text-gray-900 bg-white border border-gray-300 focus:outline-none hover:bg-gray-100 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 focus:ring-2 focus:ring-black"
         >
           Add
         </button>
@@ -149,17 +149,10 @@ export class CardLayoutComponent {
 
   addNewTask(): void {
     const input = this.dialog.nativeElement.querySelector('input');
-    if (!input) return;
-
-    // find the highest id and increment by 1
-    const id =
-      this.card.tasks.reduce((acc, task) => {
-        const id = parseInt(task.id);
-        return id > acc ? id : acc;
-      }, 0) + 1;
+    if (!input?.value) return;
 
     const task = {
-      id: id.toString(),
+      id: crypto.randomUUID(),
       title: input.value,
       labels: [],
     };

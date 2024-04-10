@@ -36,7 +36,7 @@ import { Subscription } from 'rxjs';
         <button
           (click)="addCard()"
           type="button"
-          class="text-gray-900 bg-white border border-gray-300 focus:outline-none hover:bg-gray-100 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2"
+          class="focus:ring-2 focus:ring-black text-gray-900 bg-white border border-gray-300 focus:outline-none hover:bg-gray-100 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2"
         >
           Create card
         </button>
@@ -45,7 +45,7 @@ import { Subscription } from 'rxjs';
 
     <section class="dashboard m-4">
       <div
-        class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4"
+        class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-4"
       >
         @for(card of cards; track card.id) {
         <app-card-layout
@@ -96,15 +96,9 @@ export class DashboardComponent implements OnInit, OnDestroy {
     ).value = '';
 
     const cards = this.cardsService.cardsSubject.value;
-    // find the highest id and increment by 1
-    const id =
-      cards.reduce((acc, card) => {
-        const id = parseInt(card.id);
-        return id > acc ? id : acc;
-      }, 0) + 1;
 
     const newCard: Card = {
-      id: id.toString(),
+      id: crypto.randomUUID(),
       title: title,
       tasks: [],
       bgColor: 'DEFAULT',
