@@ -155,6 +155,7 @@ export class CardLayoutComponent {
       id: crypto.randomUUID(),
       title: input.value,
       labels: [],
+      order: this.card.tasks.length,
     };
 
     this.tasksService.createTask(this.card.id, task);
