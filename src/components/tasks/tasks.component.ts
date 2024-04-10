@@ -72,8 +72,6 @@ export class TasksComponent {
   }
 
   deleteTask(index: number): void {
-    const response = confirm('Are you sure you want to delete this task?');
-    if (!response) return;
     this.tasksService.deleteTask(this.card.id, index);
   }
 
