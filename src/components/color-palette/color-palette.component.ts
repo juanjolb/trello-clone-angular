@@ -8,7 +8,7 @@ import { Component, EventEmitter, Output } from '@angular/core';
     <div class="flex flex-wrap gap-2">
       @for (color of bgColors; track $index) {
       <button
-        class="w-4 h-4"
+        class="w-5 h-5 rounded-full border-2 border-white hover:scale-150"
         [style.backgroundColor]="color"
         (click)="selectedColor.emit(color)"
       ></button>
@@ -22,12 +22,12 @@ export class ColorPaletteComponent {
 
   bgColors: string[] = [
     '#94a3b8',
-    '#2f578f',
-    '#306339',
-    '#234028',
-    '#444f35',
-    '#6f706e',
-    '#47434d',
-    '#433952',
+    '#c3cedd',
+    '#89afb7',
+    '#bd98a5',
+    '#b5adb0',
+    '#ebe1e5d9',
+    '#dbd9b9',
+    '#d9c8b2',
   ];
 }

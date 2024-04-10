@@ -17,10 +17,15 @@ import { Subscription } from 'rxjs';
   standalone: true,
   imports: [CardLayoutComponent, AddIconComponent],
   template: `
-    <dialog #newCardDialog class="dialog rounded bg-slate-400">
+    <dialog
+      #newCardDialog
+      class="dialog rounded bg-slate-400 backdrop:bg-opacity-50 backdrop:backdrop-filter backdrop:backdrop-blur-sm"
+    >
       <form method="dialog" class="flex flex-col gap-4 p-6">
-        <label for="title-input" class="block  text-xl font-medium text-white"
-          >Title</label
+        <label
+          for="title-input"
+          class="block text-xl font-medium text-white text-center"
+          >Set a card title</label
         >
         <input
           type="text"
@@ -31,9 +36,9 @@ import { Subscription } from 'rxjs';
         <button
           (click)="addCard()"
           type="button"
-          class="text-gray-900 bg-white border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-100 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2"
+          class="text-gray-900 bg-white border border-gray-300 focus:outline-none hover:bg-gray-100 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2"
         >
-          Add
+          Create card
         </button>
       </form>
     </dialog>
@@ -43,11 +48,14 @@ import { Subscription } from 'rxjs';
         class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4"
       >
         @for(card of cards; track card.id) {
-        <app-card-layout [card]="card"></app-card-layout>
+        <app-card-layout
+          [card]="card"
+          [style]="'order: ' + card.order"
+        ></app-card-layout>
         }
 
         <div
-          class="max-h-12 flex items-center gap-2 bg-slate-700 rounded py-2 px-4 cursor-pointer"
+          class="max-h-12 flex items-center gap-2 bg-slate-700 rounded py-2 px-4 cursor-pointer -order-first"
           (click)="openDialog()"
         >
           <app-add-icon class="w-5 text-white"></app-add-icon>
@@ -100,6 +108,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
       title: title,
       tasks: [],
       bgColor: 'DEFAULT',
+      order: cards.length,
     };
 
     this.cardsService.addCard(newCard);
