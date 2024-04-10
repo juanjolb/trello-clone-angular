@@ -80,11 +80,26 @@ export class DashboardComponent implements OnInit, OnDestroy {
       '#title-input'
     ) as HTMLInputElement;
     if (!title) return;
+    // clear input
+    (
+      this.dialog.nativeElement.querySelector(
+        '#title-input'
+      ) as HTMLInputElement
+    ).value = '';
+
+    const cards = this.cardsService.cardsSubject.value;
+    // find the highest id and increment by 1
+    const id =
+      cards.reduce((acc, card) => {
+        const id = parseInt(card.id);
+        return id > acc ? id : acc;
+      }, 0) + 1;
 
     const newCard: Card = {
-      id: this.cards.length.toString(),
+      id: id.toString(),
       title: title,
       tasks: [],
+      bgColor: 'DEFAULT',
     };
 
     this.cardsService.addCard(newCard);

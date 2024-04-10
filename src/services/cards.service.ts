@@ -1,4 +1,4 @@
-import { Injectable, signal } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { Card } from '../types/card';
 import { BehaviorSubject } from 'rxjs';
 
@@ -19,24 +19,8 @@ export class CardsService {
   }
 
   saveCards(): void {
-    const cards = this.cardsSubject.value;
+    const cards = this.getCards();
     localStorage.setItem('cards', JSON.stringify(cards));
-  }
-
-  createTask(cardId: string, task: string): void {
-    const cards = this.cardsSubject.value;
-    const cardIndex = cards.findIndex((card) => card.id === cardId);
-    cards[cardIndex].tasks.push(task);
-    this.cardsSubject.next(cards);
-    this.saveCards();
-  }
-
-  deleteTask(cardId: string, taskIndex: number): void {
-    const cards = this.cardsSubject.value;
-    const cardIndex = cards.findIndex((card) => card.id === cardId);
-    cards[cardIndex].tasks.splice(taskIndex, 1);
-    this.cardsSubject.next(cards);
-    this.saveCards();
   }
 
   addCard(card: Card): void {
@@ -46,9 +30,21 @@ export class CardsService {
   }
 
   deleteCard(cardId: string): void {
-    const cards = this.cardsSubject.value;
+    const cards = this.getCards();
     const updatedCards = cards.filter((card) => card.id !== cardId);
     this.cardsSubject.next(updatedCards);
     this.saveCards();
+  }
+
+  renameCard(cardId: string, title: string): void {
+    const cards = this.getCards();
+    const cardIndex = cards.findIndex((card) => card.id === cardId);
+    cards[cardIndex].title = title;
+    this.cardsSubject.next(cards);
+    this.saveCards();
+  }
+
+  getCards(): Card[] {
+    return this.cardsSubject.value;
   }
 }
