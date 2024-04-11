@@ -8,7 +8,7 @@ import { GithubIconComponent } from '../Icons/github-icon/github-icon.component'
   template: `
     <header>
       <nav class="flex justify-between p-5 bg-slate-800 text-lg font-bold ">
-        <p>Juanjo Lozano</p>
+        <p class="hidden lg:block">Juanjo Lozano</p>
         <h1 class="text-2xl text-sky-100">Trello clone</h1>
         <a
           href="https://github.com/juanjolb"
