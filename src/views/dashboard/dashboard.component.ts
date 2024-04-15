@@ -12,10 +12,17 @@ import { AddIconComponent } from '../../components/Icons/add-icon/add-icon.compo
 import { CardsService } from '../../services/cards.service';
 import { Subscription } from 'rxjs';
 
+import {
+  CdkDragDrop,
+  CdkDrag,
+  CdkDropList,
+  moveItemInArray,
+} from '@angular/cdk/drag-drop';
+
 @Component({
   selector: 'app-dashboard',
   standalone: true,
-  imports: [CardLayoutComponent, AddIconComponent],
+  imports: [CardLayoutComponent, AddIconComponent, CdkDropList, CdkDrag],
   template: `
     <dialog
       #newCardDialog
@@ -46,12 +53,12 @@ import { Subscription } from 'rxjs';
     <section class="dashboard m-4">
       <div
         class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-4"
+        cdkDropList
+        cdkDropListOrientation="horizontal"
+        (cdkDropListDropped)="drop($event)"
       >
         @for(card of cards; track card.id) {
-        <app-card-layout
-          [card]="card"
-          [style]="'order: ' + card.order"
-        ></app-card-layout>
+        <app-card-layout cdkDrag [card]="card"></app-card-layout>
         }
 
         <div
@@ -79,6 +86,12 @@ export class DashboardComponent implements OnInit, OnDestroy {
     );
   }
 
+  drop(event: CdkDragDrop<string[]>) {
+    moveItemInArray(this.cards, event.previousIndex, event.currentIndex);
+    this.cardsService.cardsSubject.next(this.cards);
+    this.cardsService.saveCards();
+  }
+
   openDialog(): void {
     this.dialog.nativeElement.showModal();
   }
@@ -102,7 +115,6 @@ export class DashboardComponent implements OnInit, OnDestroy {
       title: title,
       tasks: [],
       bgColor: 'DEFAULT',
-      order: cards.length,
     };
 
     this.cardsService.addCard(newCard);

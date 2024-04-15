@@ -44,27 +44,6 @@ export class CardsService {
     this.saveCards();
   }
 
-  changeOrder(cardId: string, direction: 'left' | 'right'): void {
-    const cards = this.getCards();
-    const cardIndex = cards.findIndex((card) => card.id === cardId);
-    const nextCard = cards.findIndex(
-      (card) => card.order === cards[cardIndex].order + 1
-    );
-    const previousCard = cards.findIndex(
-      (card) => card.order === cards[cardIndex].order - 1
-    );
-    if (direction === 'left') {
-      cards[cardIndex].order = cards[cardIndex].order - 1;
-      cards[previousCard].order = cards[previousCard].order + 1;
-    }
-    if (direction === 'right') {
-      cards[cardIndex].order = cards[cardIndex].order + 1;
-      cards[nextCard].order = cards[nextCard].order - 1;
-    }
-    this.cardsSubject.next(cards);
-    this.saveCards();
-  }
-
   getCards(): Card[] {
     return this.cardsSubject.value;
   }

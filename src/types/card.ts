@@ -5,5 +5,4 @@ export interface Card {
   title: string;
   tasks: Task[];
   bgColor: string;
-  order: number;
 }

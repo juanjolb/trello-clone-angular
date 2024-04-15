@@ -52,7 +52,7 @@ import { AngleRightComponent } from '../Icons/angle-right/angle-right.component'
     </dialog>
 
     <div
-      class="card text-black p-4 rounded"
+      class="card text-black p-4 rounded cursor-pointer shadow-md"
       [style.backgroundColor]="
         card.bgColor === 'DEFAULT' ? '#94a3b8' : card.bgColor
       "
@@ -101,19 +101,6 @@ import { AngleRightComponent } from '../Icons/angle-right/angle-right.component'
           <app-add-icon class="w-6 h-6" class="w-5" />
           <span>Add new task</span>
         </div>
-        <div class="order flex gap-2">
-          @if (card.order > 0) {
-          <app-angle-left
-            class="w-5 hover:cursor-pointer hover:scale-105"
-            (click)="handleOrder('left')"
-          />
-          } @if (cardLenght > card.order + 1) {
-          <app-angle-right
-            class="w-5 hover:cursor-pointer hover:scale-105"
-            (click)="handleOrder('right')"
-          />
-          }
-        </div>
       </footer>
     </div>
   `,
@@ -127,14 +114,6 @@ export class CardLayoutComponent {
   cardsService = inject(CardsService);
   tasksService = inject(TasksService);
   showOptions: boolean = false;
-
-  get cardLenght(): number {
-    return this.cardsService.getCards().length;
-  }
-
-  handleOrder(direction: 'left' | 'right'): void {
-    this.cardsService.changeOrder(this.card.id, direction);
-  }
 
   showTaskModal(): void {
     this.dialog.nativeElement.showModal();
@@ -155,7 +134,6 @@ export class CardLayoutComponent {
       id: crypto.randomUUID(),
       title: input.value,
       labels: [],
-      order: this.card.tasks.length,
     };
 
     this.tasksService.createTask(this.card.id, task);
